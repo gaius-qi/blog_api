@@ -14,4 +14,8 @@ class Api::V1::UsersController < Api::ApplicationController
     render json: @user
   end
 
+  def update_params
+    params.require(:user).permit(:name)
+  end
+
 end
