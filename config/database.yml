@@ -1,0 +1,23 @@
+default: &default
+  adapter: postgresql
+  pool: 5
+  timeout: 5000
+
+development:
+  <<: *default
+  database: api_demo
+  username: bobdylan
+  password: 6851260
+
+
+test:
+  <<: *default
+  database: api_demo
+  username: bobdylan
+  password: 6851260
+
+production:
+  <<: *default
+  database: api_demo
+  username: bobdylan
+  password: 6851260
