@@ -5,7 +5,6 @@ class Api::ApplicationController < ActionController::API
   include Pundit
 
   rescue_from Pundit::NotAuthorizedError, with: :deny_access!
-
   def authenticate_user!
     token, options = ActionController::HttpAuthentication::Token.token_and_options(request)
 
