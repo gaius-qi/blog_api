@@ -4,6 +4,7 @@ class User < ApplicationRecord
   before_create :generate_authentication_token
 
   has_many :page_versions
+  has_many :pages, through: :page_versions
 
   def generate_authentication_token
     loop do
