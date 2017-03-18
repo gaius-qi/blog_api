@@ -1,8 +1,11 @@
-class Api::V1::PagesController < ApplicationController
+class Api::V1::PagesController < Api::ApplicationController
 
   def index
     user = User.find(params[:user_id])
-    @pages = paginate(user.pages)
+    ################################
+    @pages = user.pages.page()
+    ################################
+    render @pages, meta: pagination_dict(@posts)
   end
-  
+
 end

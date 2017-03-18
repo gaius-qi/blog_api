@@ -3,7 +3,9 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :users
       resources :sessions, only: [:create]
-      resources :pages, only: [:index]
+      scope path: '/user/:user_id' do
+        resources :pages, only: [:index]
+      end
     end
   end
 end
