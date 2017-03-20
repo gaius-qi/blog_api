@@ -4,8 +4,9 @@ Rails.application.routes.draw do
       resources :users
       resources :sessions, only: [:create]
       scope path: '/user/:user_id' do
-        resources :pages, only: [:index]
+        resources :pages, only: [:index, :create]
       end
+      resources :pages, except: [:index, :create]
     end
   end
 end
