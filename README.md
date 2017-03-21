@@ -1,24 +1,15 @@
-# README
+# blog_api
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Rails 5 API only
 
-Things you may want to cover:
+* PostgreSql
 
-* Ruby version
+* Active Model Serializers
 
-* System dependencies
+* Pundit
 
-* Configuration
+* Kaminari
 
-* Database creation
+* Rack Cors
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* Rack Attack
