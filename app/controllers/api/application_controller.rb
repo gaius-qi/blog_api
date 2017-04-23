@@ -4,6 +4,7 @@ class Api::ApplicationController < ActionController::API
   include ActionController::Serialization
   include Pundit
 
+
   rescue_from Pundit::NotAuthorizedError, with: :deny_access!
 
   def authenticate_user!
