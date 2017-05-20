@@ -9,7 +9,6 @@ development:
   username: bobdylan
   password: 6851260
 
-
 test:
   <<: *default
   database: api_demo
