@@ -14,6 +14,7 @@ class Tag < ApplicationRecord
   has_many :pages, through: :page_tags, foreign_key: :tag_id
 
   after_save :clear_cache
+  after_destroy :clear_cache
 
   def clear_cache
     $redis.del "tags"

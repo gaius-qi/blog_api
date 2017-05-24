@@ -33,13 +33,25 @@ class Api::ApplicationController < ActionController::API
     render json: error(403, '无权限访问')
   end
 
-  def error(status_code = 400, error_message = 'error', error_code = nil)
+  def error(status_code = 400, error_message = 'error', error_code = nil, error_data = nil)
     {
         status: status_code,
-        error:{
+        data:{
+            data: error_data,
             code: error_code,
             message: error_message
         }
+    }
+  end
+
+  def success(status_code = 200, success_message = 'success', success_code = nil, success_data = nil)
+    {
+      status: status_code,
+      data:{
+          data: success_data,
+          code: success_code,
+          message: success_message
+      }
     }
   end
 

@@ -49,7 +49,10 @@ GEM
     bcrypt (3.1.11)
     builder (3.2.2)
     byebug (9.0.6)
+    chronic (0.10.2)
+    coderay (1.1.1)
     concurrent-ruby (1.0.4)
+    connection_pool (2.2.1)
     diff-lcs (1.2.5)
     erubis (2.7.0)
     factory_girl (4.8.0)
@@ -102,6 +105,8 @@ GEM
     rack-cache (1.6.1)
       rack (>= 0.4)
     rack-cors (0.4.0)
+    rack-protection (2.0.0)
+      rack
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (5.0.0.1)
@@ -131,6 +136,7 @@ GEM
     rb-fsevent (0.9.8)
     rb-inotify (0.9.7)
       ffi (>= 0.5.0)
+    redcarpet (3.4.0)
     redis (3.3.3)
     redis-actionpack (5.0.1)
       actionpack (>= 4.0, < 6)
@@ -170,6 +176,11 @@ GEM
       rspec-mocks (~> 3.5.0)
       rspec-support (~> 3.5.0)
     rspec-support (3.5.0)
+    sidekiq (5.0.0)
+      concurrent-ruby (~> 1.0)
+      connection_pool (~> 2.2, >= 2.2.0)
+      rack-protection (>= 1.5.0)
+      redis (~> 3.3, >= 3.3.3)
     spring (2.0.0)
       activesupport (>= 4.2)
     spring-watcher-listen (2.0.1)
@@ -189,6 +200,8 @@ GEM
     websocket-driver (0.6.4)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
+    whenever (0.9.7)
+      chronic (>= 0.6.3)
 
 PLATFORMS
   ruby
@@ -198,6 +211,7 @@ DEPENDENCIES
   annotate
   bcrypt (~> 3.1.7)
   byebug
+  coderay
   factory_girl_rails
   kaminari
   listen (~> 3.0.5)
@@ -207,14 +221,17 @@ DEPENDENCIES
   rack-attack
   rack-cors
   rails (~> 5.0.0, >= 5.0.0.1)
+  redcarpet
   redis
   redis-namespace
   redis-rack-cache
   redis-rails
   rspec-rails (>= 3.5.0)
+  sidekiq
   spring
   spring-watcher-listen (~> 2.0.0)
   tzinfo-data
+  whenever
 
 BUNDLED WITH
    1.13.6

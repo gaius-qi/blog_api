@@ -1,4 +1,8 @@
 class Api::V1::PagesController < Api::ApplicationController
+  include MdHelper
+  include CacheHelper
+
+  before_action :authenticate_user!, only: [:update, :create, :destory]
 
   def index
     @pages = fetch_pages_all
@@ -6,8 +10,84 @@ class Api::V1::PagesController < Api::ApplicationController
   end
 
   def show
-    @pages = Page.find_by_id(params[:id])
-    render json: @pages
+    @page = fetch_page params[:id].to_i
+    render json: error(error_message: 'page not exist') and return if @page.nil?
+    render json: @page
+  end
+
+  def create
+    params_create = params_create_page
+    user_id = params[:user_id].to_i
+
+    render json: error(error_message: 'user not exist') and return if (user = User.find_by(id: user_id)).nil?
+
+    content_html = markdown(params_create[:content])
+
+    @page = user.pages.build(
+                              params_create
+                                .except(:tags)
+                                  .merge(content_html: content_html, created: Time.now, updated: Time.now)
+                            )
+
+    ActiveRecord::Base.transaction do
+      @page.save!
+      params_create[:tags].each do |tag_name|
+        if tag = Tag.find_by(name: tag_name)
+          PageTag.create!(page_id: @page.id, tag_id: tag.id)
+        else
+          @page.tags.create!(name: tag_name)
+        end
+      end
+    end
+
+    render json: success(success_message: 'save success', success_data: {page_id: @page.id})
+  end
+
+  def update
+    params_update = params_update_page
+    user_id = params[:user_id].to_i
+    page_id = params[:id].to_i
+
+    user = User.find_by(id: user_id)
+    render json: error(error_message: 'user not exist') and return if user.nil?
+
+    page = user.pages.find_by(id: page_id)
+    render json: error(error_message: 'page nuseot exit') and return if page.nil?
+
+    content_html = markdown(params_update[:content])
+
+    ActiveRecord::Base.transaction do
+      page.update_attributes!(params_update.merge(content_html: content_html).except(:user_id, :tags, :id))
+      page.tags.destroy_all
+      params_update[:tags].each do |tag_name|
+        if tag = Tag.find_by(name: tag_name)
+          PageTag.create!(page_id: page.id, tag_id: tag.id)
+        else
+          page.tags.create!(name: tag_name)
+        end
+      end
+    end
+
+    render json: success(success_message: 'update success', success_data: {page_id: page.id})
+  end
+
+  def destroy
+    params = params_destory_page
+    user_id = params[:user_id].to_i
+    page_id = params[:id].to_i
+
+    user = User.find_by(id: user_id)
+    render json: error(error_message: 'user not exist') and return if user.nil?
+
+    page = user.pages.find_by(id: page_id)
+    render json: error(error_message: 'page nuseot exit') and return if page.nil?
+
+    ActiveRecord::Base.transaction do
+      page.destroy!
+      page.page_tags.destroy_all
+    end
+
+    render json: success(success_message: 'destory page')
   end
 
   def pages_date_total
@@ -20,70 +100,38 @@ class Api::V1::PagesController < Api::ApplicationController
     render json: @pages
   end
 
+  def archive_pages
+    @pages = fetch_archive_pages params[:date]
+    render json: error(error_message: 'archive pages not exist') and return if @pages.empty?
+    render json: @pages
+  end
+
+  def click_page
+    touch_click_page params[:id]
+    render json: success(success_message: 'click success')
+  end
+
+  def page_click_count
+    @click_count = get_page_click_count params[:id]
+    render json: @click_count
+  end
+
+  def category
+    render json: Page::PAGE_CATEGORY
+  end
+
   private
 
-    def fetch_pages_all
-      pages = $redis.get('pages')
-      full_pages = []
+  def params_create_page
+    params.require(:page).permit(:title, :content, :summary, :category, tags:[])
+  end
 
-      if pages.nil?
-        pages = Page.all.sort{|x, y| y.created <=> x.created}
+  def params_update_page
+    params.require(:page).permit(:title, :content, :summary, :category, tags:[])
+  end
 
-        pages.map do |page|
-          tags = page.tags.pluck(:name)
-          full_pages << {
-                           category: page.category,
-                           click_count: page.click_count,
-                           content: page.content,
-                           created: page.created,
-                           id: page.id,
-                           summary: page.summary,
-                           title: page.title,
-                           updated: page.updated,
-                           user_id: page.user_id,
-                           tags: tags
-                         }
-        end
-
-        pages = full_pages.to_json
-        $redis.set('pages', pages)
-        $redis.expire('pages',1.month.to_i)
-      end
-
-      @pages = JSON.load pages
-    end
-
-    def fetch_pages_date
-      date_table = {}
-      pages = fetch_pages_all
-      pages.each do |page|
-        date = page["created"].slice(0, 4) + page["created"].slice(5, 2)
-        if date_table["#{date}"].nil?
-          date_table["#{date}"] = 1
-        else
-          date_table["#{date}"] += 1
-        end
-      end
-      date_table = date_table.sort_by{|k, v| k}.reverse
-    end
-
-    def fetch_pages page_number
-      pages = fetch_pages_all
-      count_total = pages.count
-      pages = pages.slice((page_number - 1) * Page::PAGE_PAGINATION, Page::PAGE_PAGINATION)
-      count = pages.count
-      category_count = Page::PAGE_CATEGORY.count
-
-      {
-        "data": {
-          "meta": {
-            "page_count_total": count_total,
-            "page_count": count,
-            "category_count": category_count
-          },
-          "attributes": pages
-        }
-      }
-    end
+  def params_destory_page
+    params.permit(:user_id, :id)
+  end
 
 end

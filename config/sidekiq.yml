@@ -1,0 +1,13 @@
+:concurrency: 5 # 并发数
+:pidfile: tmp/pids/sidekiq.pid
+:logfile: ./log/sidekiq.log # 输出的日志地址
+:queues:
+- default # 写在队列参数中的, 表示让 sidekiq 处理这个 queue
+- [myqueue, 2] # 使用数组的形式写, 第一个参数为打开的 queue 的名称, 第二个为优先级
+
+development:
+:concurrency: 5
+staging:
+:concurrency: 10
+production:
+:concurrency: 20
