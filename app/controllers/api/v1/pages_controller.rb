@@ -120,6 +120,11 @@ class Api::V1::PagesController < Api::ApplicationController
     render json: Page::PAGE_CATEGORY
   end
 
+  def category_pages
+    @pages = fetch_category_pages params[:category].to_i
+    render json: @pages
+  end
+
   private
 
   def params_create_page

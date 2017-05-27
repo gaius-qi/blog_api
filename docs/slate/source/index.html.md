@@ -353,6 +353,55 @@ Authorization: Token token=,email=
 
 ### 响应
 1
+
+## category_pages
+
+种类对应的所有文章
+
+`get http://localhost:3000/v1/category_pages/:category`
+
+### header
+
+### 请求参数
+
+### 响应
+
+[
+  {
+    "category": 2,
+    "click_count": null,
+    "content": "内容该",
+    "content_html": "<p>内容该</p>\n",
+    "created": "2017-05-24T01:01:53.604Z",
+    "id": 281,
+    "summary": "摘要改",
+    "title": "标题改",
+    "updated": "2017-05-24T01:01:53.604Z",
+    "user_id": 2,
+    "tags": [
+      "web",
+      "Ruby"
+    ]
+  },
+  {
+    "category": 2,
+    "click_count": null,
+    "content": "内容该",
+    "content_html": "<p>内容该</p>\n",
+    "created": "2017-05-24T01:00:48.516Z",
+    "id": 280,
+    "summary": "摘要改",
+    "title": "标题改",
+    "updated": "2017-05-24T01:00:48.516Z",
+    "user_id": 2,
+    "tags": [
+      "web",
+      "Ruby"
+    ]
+  }
+]
+
+
 # TagsController
 
 ## index
@@ -467,6 +516,7 @@ Authorization: Token token=,email=
     4
   ]
 ]
+
 
 # UsersController
 

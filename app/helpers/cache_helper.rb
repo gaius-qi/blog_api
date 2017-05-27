@@ -101,6 +101,14 @@ module CacheHelper
     end
   end
 
+  def fetch_category_pages category
+    pages = fetch_pages_all
+    pages = pages.select do |x|
+      p category
+      x["category"] === category
+    end
+  end
+
   #将数据库pages表中所有文章和对应的点击数，存储到redis中pages_click哈希中
   def save_all_pages_click
     pages_click = Page.pluck(:id, :click_count).flatten
