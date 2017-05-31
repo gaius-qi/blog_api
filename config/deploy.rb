@@ -3,7 +3,7 @@ require 'mina/git'
 require 'mina/logs'
 require 'mina/puma'
 require 'mina/bundler'
-
+require 'mina/rvm'
 
 set :domain, '106.15.92.227'
 set :user, 'qwbtc'
@@ -14,10 +14,10 @@ set :branch, 'master'
 set :shared_dirs, fetch(:shared_dirs, []).push('public/upload', 'tmp/sockets', 'tmp/pids', 'db/production')
 set :shared_files, fetch(:shared_files, []).push('config/database.yml', 'config/secrets.yml')
 
-# desc 'Set up environment.'
-# task :environment do
-#   invoke :'rvm:use', 'ruby-2.4.1@rails5'
-# end
+desc 'Set up environment.'
+task :environment do
+  invoke :'rvm:use', 'ruby-2.4.1@rails5'
+end
 
 desc 'Prepare for deployment.'
 task :setup do
