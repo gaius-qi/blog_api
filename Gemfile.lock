@@ -93,6 +93,8 @@ GEM
     mina (1.0.6)
       open4 (~> 1.3.4)
       rake
+    mina-logs (1.0.1)
+      mina (>= 1.0.2)
     mini_portile2 (2.1.0)
     minitest (5.10.1)
     nio4r (1.2.1)
@@ -220,6 +222,7 @@ DEPENDENCIES
   kaminari
   listen (~> 3.0.5)
   mina
+  mina-logs
   pg
   puma (~> 3.0)
   pundit

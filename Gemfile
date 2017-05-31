@@ -46,6 +46,7 @@ gem 'whenever', :require => false #定时任务
 
 #部署
 gem 'mina'
+gem 'mina-logs', require: false
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
