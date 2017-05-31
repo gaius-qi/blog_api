@@ -1,6 +1,8 @@
 require 'mina/rails'
 require 'mina/git'
 require 'mina/logs'
+require 'mina/puma'
+require 'mina/bundler'
 
 
 set :domain, '106.15.92.227'

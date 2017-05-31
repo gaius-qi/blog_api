@@ -95,6 +95,9 @@ GEM
       rake
     mina-logs (1.0.1)
       mina (>= 1.0.2)
+    mina-puma (1.0.1)
+      mina (~> 1.0.0)
+      puma (>= 2.13)
     mini_portile2 (2.1.0)
     minitest (5.10.1)
     nio4r (1.2.1)
@@ -223,6 +226,7 @@ DEPENDENCIES
   listen (~> 3.0.5)
   mina
   mina-logs
+  mina-puma
   pg
   puma (~> 3.0)
   pundit
