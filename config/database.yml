@@ -18,5 +18,5 @@ test:
 production:
   <<: *default
   database: bolg_api
-  username: postgres
+  username: qwbtc
   password: 6851260
