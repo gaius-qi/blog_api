@@ -1,14 +1,15 @@
+require 'mina/bundler'
 require 'mina/rails'
 require 'mina/git'
-require 'mina/logs'
+require 'mina/rbenv'
+#require 'mina/rvm'
 require 'mina/puma'
-require 'mina/bundler'
-require 'mina/rvm'
+require 'mina/logs'
 
 set :domain, '106.15.92.227'
 set :user, 'qwbtc'
-set :deploy_to, '/home/qwbtc/var/WWW/issac_api'
-set :repository, 'git@github.com:qwbtc/blog_api.git'
+set :deploy_to, '/home/qwbtc/var/www/isaac_api'
+set :repository, 'git@github.com:qwbtc/blog_api.git'    # private repository
 set :branch, 'master'
 
 set :shared_dirs, fetch(:shared_dirs, []).push('public/upload', 'tmp/sockets', 'tmp/pids', 'db/production')
@@ -16,7 +17,8 @@ set :shared_files, fetch(:shared_files, []).push('config/database.yml', 'config/
 
 desc 'Set up environment.'
 task :environment do
-  invoke :'rvm:use', 'ruby-2.4.1@rails5'
+  invoke :'rbenv:load'
+  #invoke :'rvm:use', 'ruby-2.3.1@rails5'
 end
 
 desc 'Prepare for deployment.'
