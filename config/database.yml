@@ -17,6 +17,6 @@ test:
 
 production:
   <<: *default
-  database: bolg_api
-  username: qwbtc
+  database: api_demo
+  username: bobdylan
   password: 6851260
