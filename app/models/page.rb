@@ -24,7 +24,7 @@ class Page < ApplicationRecord
   after_save :clear_cache
   after_destroy :clear_cache
 
-  PAGE_CATEGORY = [['前端', 0], ['后端', 1], ['语言', 2], ['新闻', 3], ['生活', 4], ['测试', 5]]
+  PAGE_CATEGORY = [['前端', 0], ['后端', 1], ['语言', 2], ['新闻', 3], ['生活', 4]]
   #一页四篇
   PAGE_PAGINATION = 4
 
