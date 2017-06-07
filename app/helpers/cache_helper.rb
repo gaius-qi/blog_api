@@ -104,7 +104,6 @@ module CacheHelper
   def fetch_category_pages category
     pages = fetch_pages_all
     pages = pages.select do |x|
-      p category
       x["category"] === category
     end
   end
