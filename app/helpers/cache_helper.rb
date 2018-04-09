@@ -141,5 +141,4 @@ module CacheHelper
 
     click_count = $redis.hget("pages_click", page_number)
   end
-
 end

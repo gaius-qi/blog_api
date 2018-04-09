@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       get '/category',                  to: 'pages#category'
       get '/category_pages/:category',  to: 'pages#category_pages'
       get '/tag_pages/:tag_name',       to: 'tags#tag_pages'
+      get '/tag_icons/:icon_name',      to: 'tags#tag_icons'
     end
   end
 end
